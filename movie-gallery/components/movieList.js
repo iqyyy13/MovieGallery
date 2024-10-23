@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { ScrollView } from 'react-native'
 
 const MovieList = () => {
     return (
@@ -10,6 +11,9 @@ const MovieList = () => {
               <Text style = {{marginRight: 20, fontSize: 20, color: 'orange'}}>See All</Text>
             </TouchableOpacity>
           </View>
+          <ScrollView>
+            
+          </ScrollView>
         </View>
     )
 }
