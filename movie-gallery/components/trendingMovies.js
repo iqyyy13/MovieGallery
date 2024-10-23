@@ -10,7 +10,7 @@ const TrendingMovies = ({data}) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}
       >
-        <CarouselComponent/>
+        <CarouselComponent data={data} />
       </ScrollView>
     </View>
   )

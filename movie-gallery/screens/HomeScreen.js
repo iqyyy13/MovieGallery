@@ -1,13 +1,32 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import Entypo from 'react-native-vector-icons/Entypo'
 import TrendingMovies from '../components/trendingMovies'
+import MovieList from '../components/movieList'
+import Loading from '../components/loading'
+
+import { fetchTrendingMovies } from '../api/moviedb'
 
 const HomeScreen = ({ navigation }) => {
   const [trending, setTrending] = useState([1,2,3])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getTrendingMovies()
+  }, [])
+
+  const getTrendingMovies = async() => {
+    const data = await fetchTrendingMovies()
+    console.log('got trending movies: ', data)
+    if(data && data.results) {
+      setTrending(data.results)
+    }
+    setLoading(false)
+  }
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
@@ -24,12 +43,20 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </SafeAreaView>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 10 }}
-      >
-        <TrendingMovies/>
-      </ScrollView>
+      {
+        loading? (
+          <Loading />
+        ):(
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 10 }}
+          >
+            { trending.length>0 && <TrendingMovies data={trending} /> }
+            <MovieList/>
+          </ScrollView>
+        )
+      }
+
     </View>
   )
 }
