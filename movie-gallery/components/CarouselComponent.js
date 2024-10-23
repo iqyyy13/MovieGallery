@@ -27,10 +27,9 @@ const carouselData = [
 
 const CarouselComponent = ({ data }) => {
   const navigation = useNavigation()
-  const handleClick = () => {
+  const handleClick = (item) => {
     navigation.navigate('Movie', item)
   }
-
   return (
     <View style={styles.container}>
       <Carousel
@@ -39,7 +38,7 @@ const CarouselComponent = ({ data }) => {
         autoPlay={false}
         data={data}
         renderItem={({ item }) => (
-          <MovieCard item={item} handleClick={handleClick} />
+          <MovieCard item ={item} handleClick={handleClick} />
         )}
       />
     </View>
@@ -48,7 +47,7 @@ const CarouselComponent = ({ data }) => {
 
 const MovieCard = ({ item, handleClick }) => {
   return (
-    <TouchableOpacity onPress={() => handleClick(item)}>
+    <TouchableOpacity key={item.id} onPress={() => handleClick(item)}>
       <View style={styles.slide}>
         <Image
           source={{ uri: image500(item.poster_path) }}

@@ -11,17 +11,17 @@ import Loading from '../components/loading'
 import { fetchTrendingMovies } from '../api/moviedb'
 
 const HomeScreen = ({ navigation }) => {
-  const [trending, setTrending] = useState([1,2,3])
+  const [trending, setTrending] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getTrendingMovies()
   }, [])
 
-  const getTrendingMovies = async() => {
+  const getTrendingMovies = async () => {
     const data = await fetchTrendingMovies()
     console.log('got trending movies: ', data)
-    if(data && data.results) {
+    if (data && data.results) {
       setTrending(data.results)
     }
     setLoading(false)
@@ -43,20 +43,17 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </SafeAreaView>
 
-      {
-        loading? (
-          <Loading />
-        ):(
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 10 }}
-          >
-            { trending.length>0 && <TrendingMovies data={trending} /> }
-            <MovieList/>
-          </ScrollView>
-        )
-      }
-
+      {loading ? (
+        <Loading />
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 10 }}
+        >
+          {trending.length > 0 && <TrendingMovies data={trending} />}
+          <MovieList />
+        </ScrollView>
+      )}
     </View>
   )
 }
