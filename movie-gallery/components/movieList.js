@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import Carousel from 'react-native-reanimated-carousel'
+import { image185 } from '../api/moviedb'
 
 const { width, height } = Dimensions.get('window')
 
@@ -43,12 +43,12 @@ const MovieList = ({ title, data }) => {
             >
               <View style={{marginTop: 20}}>
                 <Image
-                  source={require('../assets/image.png')}
+                  source={{uri: image185(item.poster_path)}}
                   style={{width: width*0.33, height: height*0.22, borderRadius: 20, marginLeft: 10}}
                 />
                 <Text style={{color: 'white', textAlign: 'center',}}>
                   {
-                    movieName.length>14? movieName.slice(0,14)+'...':movieName
+                    item.title.length>14? item.title.slice(0,14)+'...':item.title
                   }
                 </Text>
               </View>
