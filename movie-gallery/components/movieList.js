@@ -14,8 +14,7 @@ import { image185 } from '../api/moviedb'
 
 const { width, height } = Dimensions.get('window')
 
-const MovieList = ({ title, data }) => {
-  let movieName = 'Venom'
+const MovieList = ({ title, data, hideSeeAll }) => {
   const navigation = useNavigation()
 
   return (
@@ -24,11 +23,15 @@ const MovieList = ({ title, data }) => {
         <Text style={{ marginLeft: 20, fontSize: 20, color: 'white' }}>
           {title}
         </Text>
-        <TouchableOpacity>
-          <Text style={{ marginRight: 20, fontSize: 20, color: 'orange' }}>
-            See All
-          </Text>
-        </TouchableOpacity>
+        {
+          !hideSeeAll && (
+            <TouchableOpacity>
+              <Text style={{ marginRight: 20, fontSize: 20, color: 'orange' }}>
+                See All
+              </Text>
+            </TouchableOpacity>
+          )
+        }
       </View>
       <ScrollView
         horizontal
@@ -39,14 +42,14 @@ const MovieList = ({ title, data }) => {
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => navigation.navigate('Movie', item)}
+              onPress={() => navigation.push('Movie', item)}
             >
               <View style={{marginTop: 20}}>
                 <Image
                   source={{uri: image185(item.poster_path)}}
                   style={{width: width*0.33, height: height*0.22, borderRadius: 20, marginLeft: 10}}
                 />
-                <Text style={{color: 'white', textAlign: 'center',}}>
+                <Text style={{color: 'white', textAlign: 'center', marginTop: 5}}>
                   {
                     item.title.length>14? item.title.slice(0,14)+'...':item.title
                   }

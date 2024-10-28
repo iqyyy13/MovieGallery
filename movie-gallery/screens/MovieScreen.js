@@ -8,13 +8,23 @@ import {
   Image,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useRoute } from '@react-navigation/native'
 import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/native'
-import { image500, image342, image185, fetchMovieDetails } from '../api/moviedb'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import {
+  image500,
+  image342,
+  image185,
+  fetchMovieDetails,
+  fetchMovieCredits,
+  fetchSimilarMovies,
+} from '../api/moviedb'
 import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
+
+import MovieList from '../components/movieList'
+import Cast from '../components/cast'
 
 const { width, height } = Dimensions.get('window')
 
@@ -24,6 +34,8 @@ const MovieScreen = () => {
   const [favourite, toggleFavourite] = useState(false)
   const [loading, setLoading] = useState(false)
   const [movie, setMovie] = useState({})
+  const [similarMovies, setSimilarMovies] = useState([])
+  const [cast, setCast] = useState([])
 
   const handlePress = () => {
     navigation.goBack()
@@ -37,12 +49,27 @@ const MovieScreen = () => {
     console.log('itemid: ', item.id)
     setLoading(true)
     getMovieDetails(item.id)
+    getMovieCredits(item.id)
+    getSimilarMovies(item.id)
   }, [item])
 
   const getMovieDetails = async (id) => {
     const data = await fetchMovieDetails(id)
     // console.log('got movie details: ', data)
     if (data) setMovie(data)
+    setLoading(false)
+  }
+
+  const getMovieCredits = async (id) => {
+    const data = await fetchMovieCredits(id)
+    if (data && data.cast) setCast(data.cast)
+    setLoading(false)
+  }
+
+  const getSimilarMovies = async (id) => {
+    const data = await fetchSimilarMovies(id)
+    console.log('got similar movies: ', data)
+    if (data && data.results) setSimilarMovies(data.results)
     setLoading(false)
   }
 
@@ -153,6 +180,38 @@ const MovieScreen = () => {
           {movie?.overview}
         </Text>
       </View>
+      <TouchableOpacity
+        style={{
+          backgroundColor: 'rgb(163 163 163)',
+          borderRadius: 20,
+          width: '25%',
+          alignSelf: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+          justifyContent: 'space-evenly',
+          flexDirection: 'row'
+        }}
+        onPress={() => navigation.push('Video')}
+      >
+        <FontAwesome name="play-circle" size={20} color={'white'}/>
+        <Text
+          style={{
+            marginTop: 10,
+            color: 'white',
+            textAlign: 'center',
+            marginBottom: 10,
+            fontWeight: 800,
+          }}
+        >
+          Play Trailer?
+        </Text>
+      </TouchableOpacity>
+      <Cast cast={cast} />
+      <MovieList
+        title="Similar Movies"
+        data={similarMovies}
+        hideSeeAll={true}
+      />
     </ScrollView>
   )
 }

@@ -7,7 +7,7 @@ const TrendingMovies = ({data}) => {
     <View style = {styles.container}>
       <Text style = {{color: 'white', marginBottom: 20, marginLeft: 20, fontSize: 20}}>Trending</Text>
       <ScrollView
-        showsVerticalScrollIndicator={false}
+        showVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}
       >
         <CarouselComponent data={data} />

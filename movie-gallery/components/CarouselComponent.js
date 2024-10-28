@@ -35,7 +35,7 @@ const CarouselComponent = ({ data }) => {
       <Carousel
         width={windowWidth}
         height={400} // Set a height for your carousel
-        autoPlay={false}
+        autoPlay={true}
         data={data}
         renderItem={({ item }) => (
           <MovieCard item ={item} handleClick={handleClick} />

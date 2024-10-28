@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
-import { View, StyleSheet, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, ScrollView, PanResponder } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -9,6 +9,7 @@ import MovieList from '../components/movieList'
 import Loading from '../components/loading'
 
 import { fetchTrendingMovies, fetchUpcomingMovies, fetchTopRatedMovies } from '../api/moviedb'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const HomeScreen = ({ navigation }) => {
   const [trending, setTrending] = useState([])
@@ -25,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
 
   const getTrendingMovies = async () => {
     const data = await fetchTrendingMovies()
-    console.log('got trending movies: ', data)
+    // console.log('got trending movies: ', data)
     if (data && data.results) {
       setTrending(data.results)
     }
@@ -34,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
 
   const getUpcomingMovies = async () => {
     const data = await fetchUpcomingMovies()
-    console.log('got upcoming movies: ', data)
+    // console.log('got upcoming movies: ', data)
     if (data && data.results) {
       setUpcoming(data.results)
     }
@@ -43,11 +44,26 @@ const HomeScreen = ({ navigation }) => {
 
   const getTopRatedMovies = async () => {
     const data = await fetchTopRatedMovies()
-    console.log('got top rated movies: ', data)
+    // console.log('got top rated movies: ', data)
     if (data && data.results) {
       setTopRated(data.results)
     }
     setLoading(false)
+  }
+
+  const panResponder = React.useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return Math.abs(gestureState.dx) > Math.abs(gestureState.dy)
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        evt.preventDefault()
+      }
+    })
+  ).current
+
+  const handlePress = () => {
+    console.log("yayy")
   }
 
   return (
@@ -55,7 +71,9 @@ const HomeScreen = ({ navigation }) => {
       <SafeAreaView>
         <StatusBar style="light" />
         <View style={styles.header}>
-          <Entypo name="menu" size={30} color={'white'} paddingLeft={20} />
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <Entypo name="menu" size={30} color={'white'} paddingLeft={20} />
+          </TouchableOpacity>
           <Text style={{ color: 'white', fontSize: 30 }}> Movies </Text>
           <Entypo
             name="magnifying-glass"
@@ -72,6 +90,7 @@ const HomeScreen = ({ navigation }) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 10 }}
+          {...panResponder.panHandlers}
         >
           {trending.length > 0 && <TrendingMovies data={trending} />}
 
