@@ -92,8 +92,9 @@ const MovieScreen = () => {
 
   useEffect(() => {
     // console.log("DATA OBTAINED")
-    const officialTrailer = trailer.find(video => video.name.includes("Official Trailer"))
-    setOfficialTrailerKey(officialTrailer ? officialTrailer.key : null)
+    const officialTrailer = trailer.find(video => video.type.includes("Trailer"))
+    const selectedTrailer = officialTrailer || trailer[0]
+    setOfficialTrailerKey(selectedTrailer ? selectedTrailer.key : null)
     console.log(officialTrailerKey)
   }, [trailer])
 
