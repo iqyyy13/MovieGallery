@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   Dimensions,
+  Button,
 } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -23,27 +24,56 @@ const SearchScreen = () => {
   const navigation = useNavigation()
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [totalPages, setTotalPages] = useState(0)
 
   const handleSearch = (value) => {
-    if(value && value.length>2){
+    if (value && value.length > 2) {
       setLoading(true)
-      searchMovies({
-        query: value,
-        include_adult: false,
-        language: 'en-US',
-        page: '1',
-      }).then((data) => {
-        setLoading(false)
-        console.log('got movies', data)
-        if (data && data.results) setResults(data.results)
-      })
-    } else{
+      setSearchQuery(value)
+      setCurrentPage(1)
+      fetchMovies(value, 1)
+    } else {
       setLoading(false)
       setResults([])
+      setTotalPages(0)
     }
   }
 
+  const fetchMovies = (query, page) => {
+    searchMovies({
+      query: query,
+      include_adult: false,
+      language: 'en-US',
+      page: page.toString(),
+    }).then((data) => {
+      setLoading(false)
+      console.log('got movies', data)
+      if (data && data.results) {
+        setResults(data.results)
+        setTotalPages(data.total_pages)
+      }
+    })
+  }
+
+  const loadMoreMovies = () => {
+    if (searchQuery) {
+      const nextPage = currentPage + 1
+      fetchMovies(searchQuery, nextPage)
+      setCurrentPage(nextPage)
+    }
+  }
+
+  const goToPage = (page) => {
+    setLoading(true)
+    setCurrentPage(page)
+    fetchMovies(searchQuery, page)
+  }
+
   const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
+
+  console.log('QUERY IS:', searchQuery)
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -120,9 +150,9 @@ const SearchScreen = () => {
                       marginTop: 5,
                     }}
                   >
-                    {
-                      item?.title.length>22? item?.title.slice(0,22)+'...':item?.title
-                    }
+                    {item?.title.length > 22
+                      ? item?.title.slice(0, 22) + '...'
+                      : item?.title}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>
@@ -130,6 +160,30 @@ const SearchScreen = () => {
           })}
         </View>
       </ScrollView>
+      <View style={{paddingVertical:5}}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}
+          >
+            {Array.from({ length: totalPages }, (_, index) => (
+              <TouchableOpacity
+                key={index + 1}
+                onPress={() => goToPage(index + 1)}
+                style={[
+                  styles.pageButton,
+                  currentPage === index + 1 && styles.activePageButton,
+                ]}
+              >
+                <Text style={{ color: '#000' }}>{index + 1}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }
@@ -143,6 +197,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  pageButton: {
+    marginHorizontal: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#ffffff',
+    borderRadius: 5,
+  },
+  activePageButton: {
+    backgroundColor: '#007bff',
   },
 })
 

@@ -14,8 +14,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   image500,
-  image342,
-  image185,
   fetchMovieDetails,
   fetchMovieCredits,
   fetchSimilarMovies,
@@ -25,6 +23,7 @@ import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import MovieList from '../components/movieList'
+import ReviewList from '../components/reviewList'
 import Cast from '../components/cast'
 
 const { width, height } = Dimensions.get('window')
@@ -167,13 +166,18 @@ const MovieScreen = () => {
             width: '15%',
             position: 'absolute',
             right: 0,
-            marginTop: 8,
+            marginTop: 36,
             marginRight: 10,
-            borderRadius: 50
+            borderRadius: 50,
           }}
         >
-          <FontAwesome name="star" size={16} color={'white'} style={{marginLeft: 5}} />
-          <Text style={{ color: 'white', fontSize: 20, marginRight: 5}}>
+          <FontAwesome
+            name="star"
+            size={16}
+            color={'white'}
+            style={{ marginLeft: 5 }}
+          />
+          <Text style={{ color: 'white', fontSize: 20, marginRight: 5 }}>
             {movie?.vote_average ? movie.vote_average.toFixed(1) : null}
           </Text>
         </View>
@@ -253,6 +257,7 @@ const MovieScreen = () => {
         data={similarMovies}
         hideSeeAll={true}
       />
+      <ReviewList/>
     </ScrollView>
   )
 }
