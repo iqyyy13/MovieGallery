@@ -19,7 +19,7 @@ import {
   fetchMovieDetails,
   fetchMovieCredits,
   fetchSimilarMovies,
-  fetchMovieTrailer
+  fetchMovieTrailer,
 } from '../api/moviedb'
 import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -59,7 +59,7 @@ const MovieScreen = () => {
 
   const getMovieDetails = async (id) => {
     const data = await fetchMovieDetails(id)
-    // console.log('got movie details: ', data)
+    console.log('got movie details: ', data)
     if (data) setMovie(data)
     setLoading(false)
   }
@@ -80,22 +80,23 @@ const MovieScreen = () => {
 
   const getMovieTrailer = async (id) => {
     const data = await fetchMovieTrailer(id)
-    console.log('got movie trailer: ', data)
+    // console.log('got movie trailer: ', data)
     if (data && data.results) setTrailer(data.results)
     setLoading(false)
   }
 
   useEffect(() => {
-
     //call movie details api
   }, [item])
 
   useEffect(() => {
     // console.log("DATA OBTAINED")
-    const officialTrailer = trailer.find(video => video.type.includes("Trailer"))
+    const officialTrailer = trailer.find((video) =>
+      video.type.includes('Trailer')
+    )
     const selectedTrailer = officialTrailer || trailer[0]
     setOfficialTrailerKey(selectedTrailer ? selectedTrailer.key : null)
-    console.log(officialTrailerKey)
+    // console.log(officialTrailerKey)
   }, [trailer])
 
   return (
@@ -157,6 +158,25 @@ const MovieScreen = () => {
         >
           {movie?.title}
         </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'rgb(38 38 38)',
+            width: '15%',
+            position: 'absolute',
+            right: 0,
+            marginTop: 8,
+            marginRight: 10,
+            borderRadius: 50
+          }}
+        >
+          <FontAwesome name="star" size={16} color={'white'} style={{marginLeft: 5}} />
+          <Text style={{ color: 'white', fontSize: 20, marginRight: 5}}>
+            {movie?.vote_average ? movie.vote_average.toFixed(1) : null}
+          </Text>
+        </View>
         <Text
           style={{
             color: 'rgb(163,163,163)',
@@ -193,7 +213,7 @@ const MovieScreen = () => {
             color: 'rgb(163,163,163)',
             fontWeight: '600',
             textAlign: 'center',
-            marginTop: 20,
+            marginTop: 10,
             marginHorizontal: 10,
             fontSize: 15,
           }}
@@ -203,18 +223,18 @@ const MovieScreen = () => {
       </View>
       <TouchableOpacity
         style={{
-          backgroundColor: 'rgb(163 163 163)',
+          backgroundColor: 'rgb(38 38 38)',
           borderRadius: 20,
           width: '25%',
           alignSelf: 'center',
           alignItems: 'center',
           marginTop: 10,
           justifyContent: 'space-evenly',
-          flexDirection: 'row'
+          flexDirection: 'row',
         }}
         onPress={() => navigation.push('Video', officialTrailerKey)}
       >
-        <FontAwesome name="play-circle" size={20} color={'white'}/>
+        <FontAwesome name="play-circle" size={20} color={'white'} />
         <Text
           style={{
             marginTop: 10,

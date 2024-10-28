@@ -8,7 +8,11 @@ import TrendingMovies from '../components/trendingMovies'
 import MovieList from '../components/movieList'
 import Loading from '../components/loading'
 
-import { fetchTrendingMovies, fetchUpcomingMovies, fetchTopRatedMovies } from '../api/moviedb'
+import {
+  fetchTrendingMovies,
+  fetchUpcomingMovies,
+  fetchTopRatedMovies,
+} from '../api/moviedb'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const HomeScreen = ({ navigation }) => {
@@ -58,12 +62,12 @@ const HomeScreen = ({ navigation }) => {
       },
       onPanResponderMove: (evt, gestureState) => {
         evt.preventDefault()
-      }
+      },
     })
   ).current
 
   const handlePress = () => {
-    console.log("yayy")
+    console.log('yayy')
   }
 
   return (
@@ -75,12 +79,14 @@ const HomeScreen = ({ navigation }) => {
             <Entypo name="menu" size={30} color={'white'} paddingLeft={20} />
           </TouchableOpacity>
           <Text style={{ color: 'white', fontSize: 30 }}> Movies </Text>
-          <Entypo
-            name="magnifying-glass"
-            size={30}
-            color={'white'}
-            paddingRight={20}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+            <Entypo
+              name="magnifying-glass"
+              size={30}
+              color={'white'}
+              paddingRight={20}
+            />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
 
