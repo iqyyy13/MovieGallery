@@ -19,6 +19,7 @@ import {
   fetchMovieDetails,
   fetchMovieCredits,
   fetchSimilarMovies,
+  fetchMovieTrailer
 } from '../api/moviedb'
 import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -36,6 +37,8 @@ const MovieScreen = () => {
   const [movie, setMovie] = useState({})
   const [similarMovies, setSimilarMovies] = useState([])
   const [cast, setCast] = useState([])
+  const [trailer, setTrailer] = useState([])
+  const [officialTrailerKey, setOfficialTrailerKey] = useState(null)
 
   const handlePress = () => {
     navigation.goBack()
@@ -51,6 +54,7 @@ const MovieScreen = () => {
     getMovieDetails(item.id)
     getMovieCredits(item.id)
     getSimilarMovies(item.id)
+    getMovieTrailer(item.id)
   }, [item])
 
   const getMovieDetails = async (id) => {
@@ -62,20 +66,36 @@ const MovieScreen = () => {
 
   const getMovieCredits = async (id) => {
     const data = await fetchMovieCredits(id)
+    // console.log('got casts: ', data)
     if (data && data.cast) setCast(data.cast)
     setLoading(false)
   }
 
   const getSimilarMovies = async (id) => {
     const data = await fetchSimilarMovies(id)
-    console.log('got similar movies: ', data)
+    // console.log('got similar movies: ', data)
     if (data && data.results) setSimilarMovies(data.results)
     setLoading(false)
   }
 
+  const getMovieTrailer = async (id) => {
+    const data = await fetchMovieTrailer(id)
+    console.log('got movie trailer: ', data)
+    if (data && data.results) setTrailer(data.results)
+    setLoading(false)
+  }
+
   useEffect(() => {
+
     //call movie details api
   }, [item])
+
+  useEffect(() => {
+    // console.log("DATA OBTAINED")
+    const officialTrailer = trailer.find(video => video.name.includes("Official Trailer"))
+    setOfficialTrailerKey(officialTrailer ? officialTrailer.key : null)
+    console.log(officialTrailerKey)
+  }, [trailer])
 
   return (
     <ScrollView
@@ -191,7 +211,7 @@ const MovieScreen = () => {
           justifyContent: 'space-evenly',
           flexDirection: 'row'
         }}
-        onPress={() => navigation.push('Video')}
+        onPress={() => navigation.push('Video', officialTrailerKey)}
       >
         <FontAwesome name="play-circle" size={20} color={'white'}/>
         <Text

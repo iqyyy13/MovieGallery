@@ -14,10 +14,10 @@ const Drawer = createDrawerNavigator()
 const HomeStack = () => {
   return(
     <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-        <Stack.Screen name="Movie" component={MovieScreen} options={{headerShown: false, gestureEnabled: false}}/>
-        <Stack.Screen name="Person" component={PersonScreen} options={{headerShown: false, gestureEnabled: false}}/>
-        <Stack.Screen name="Video" component={VideoScreen} options={{headerShown: false, gestureEnabled: false}}/>        
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false, orientation:'portrait'}}/>
+        <Stack.Screen name="Movie" component={MovieScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>
+        <Stack.Screen name="Person" component={PersonScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>
+        <Stack.Screen name="Video" component={VideoScreen} options={{headerShown: false, gestureEnabled: false, orientation:'landscape'}}/>        
     </Stack.Navigator>
   )
 }
