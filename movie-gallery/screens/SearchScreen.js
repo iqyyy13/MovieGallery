@@ -73,7 +73,6 @@ const SearchScreen = () => {
 
   const handleTextDebounce = useCallback(debounce(handleSearch, 400), [])
 
-  console.log('QUERY IS:', searchQuery)
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -106,84 +105,90 @@ const SearchScreen = () => {
           <Entypo name="circle-with-cross" size={45} color={'lightgray'} />
         </TouchableOpacity>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
-      >
-        <Text
-          style={{
-            color: 'white',
-            marginLeft: 5,
-            marginTop: 12,
-            marginBottom: 10,
-          }}
-        >
-          Results ({results.length})
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-          }}
-        >
-          {results.map((item, index) => {
-            return (
-              <TouchableWithoutFeedback
-                key={index}
-                onPress={() => navigation.push('Movie', item)}
-              >
-                <View>
-                  <Image
-                    style={{
-                      borderRadius: 24,
-                      width: width * 0.44,
-                      height: height * 0.3,
-                    }}
-                    source={{ uri: image342(item?.poster_path) }}
-                  />
-                  <Text
-                    style={{
-                      color: 'white',
-                      textAlign: 'center',
-                      marginBottom: 10,
-                      marginTop: 5,
-                    }}
-                  >
-                    {item?.title.length > 22
-                      ? item?.title.slice(0, 22) + '...'
-                      : item?.title}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            )
-          })}
-        </View>
-      </ScrollView>
-      <View style={{paddingVertical:5}}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-            }}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 15 }}
           >
-            {Array.from({ length: totalPages }, (_, index) => (
-              <TouchableOpacity
-                key={index + 1}
-                onPress={() => goToPage(index + 1)}
-                style={[
-                  styles.pageButton,
-                  currentPage === index + 1 && styles.activePageButton,
-                ]}
+            <Text
+              style={{
+                color: 'white',
+                marginLeft: 5,
+                marginTop: 12,
+                marginBottom: 10,
+              }}
+            >
+              Results ({results.length})
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+              }}
+            >
+              {results.map((item, index) => {
+                return (
+                  <TouchableWithoutFeedback
+                    key={index}
+                    onPress={() => navigation.push('Movie', item)}
+                  >
+                    <View>
+                      <Image
+                        style={{
+                          borderRadius: 24,
+                          width: width * 0.44,
+                          height: height * 0.3,
+                        }}
+                        source={{ uri: image342(item?.poster_path) }}
+                      />
+                      <Text
+                        style={{
+                          color: 'white',
+                          textAlign: 'center',
+                          marginBottom: 10,
+                          marginTop: 5,
+                        }}
+                      >
+                        {item?.title.length > 22
+                          ? item?.title.slice(0, 22) + '...'
+                          : item?.title}
+                      </Text>
+                    </View>
+                  </TouchableWithoutFeedback>
+                )
+              })}
+            </View>
+          </ScrollView>
+          <View style={{ paddingVertical: 5, alignItems: 'center' }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}
               >
-                <Text style={{ color: '#000' }}>{index + 1}</Text>
-              </TouchableOpacity>
-            ))}
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <TouchableOpacity
+                    key={index + 1}
+                    onPress={() => goToPage(index + 1)}
+                    style={[
+                      styles.pageButton,
+                      currentPage === index + 1 && styles.activePageButton,
+                    ]}
+                  >
+                    <Text style={{ color: '#000' }}>{index + 1}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
+        </>
+      )}
     </SafeAreaView>
   )
 }

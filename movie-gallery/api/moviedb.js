@@ -80,3 +80,11 @@ export const fetchMovieTrailer = id => {
 export const searchMovies = params => {
   return apiCall(searchMoviesEndpoint, params)
 }
+
+export const fetchMoreTopRatedMovies = params => {
+  return apiCall(topRatedMoviesEndpoint, params)
+}
+
+export const fetchMoreUpcomingMovies = params => {
+  return apiCall(upcomingMoviesEndpoint, params)
+}

@@ -65,9 +65,16 @@ const HomeScreen = ({ navigation }) => {
       },
     })
   ).current
+  
+  const handleSeeAllUpcoming = () => {
+    console.log("OK")
+    navigation.push('SeeAll', { title: 'Upcoming', type: 'Upcoming'})
+  }
 
-  const handlePress = () => {
-    console.log('yayy')
+  const handleSeeAllTopRated = () => {
+    console.log("NOO")
+    navigation.push('SeeAll', { title: 'Top Rated', type: 'TopRated'})
+
   }
 
   return (
@@ -100,8 +107,8 @@ const HomeScreen = ({ navigation }) => {
         >
           {trending.length > 0 && <TrendingMovies data={trending} />}
 
-          <MovieList title="Upcoming" data={upcoming} />
-          <MovieList title="Top Rated" data={topRated} />
+          <MovieList title="Upcoming" data={upcoming} onSeeAllPress={handleSeeAllUpcoming}/>
+          <MovieList title="Top Rated" data={topRated} onSeeAllPress={handleSeeAllTopRated}/>
         </ScrollView>
       )}
     </View>

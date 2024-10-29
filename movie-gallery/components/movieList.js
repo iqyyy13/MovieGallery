@@ -14,7 +14,7 @@ import { image185 } from '../api/moviedb'
 
 const { width, height } = Dimensions.get('window')
 
-const MovieList = ({ title, data, hideSeeAll }) => {
+const MovieList = ({ title, data, hideSeeAll, onSeeAllPress }) => {
   const navigation = useNavigation()
 
   return (
@@ -25,7 +25,7 @@ const MovieList = ({ title, data, hideSeeAll }) => {
         </Text>
         {
           !hideSeeAll && (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onSeeAllPress}>
               <Text style={{ marginRight: 20, fontSize: 20, color: 'orange' }}>
                 See All
               </Text>
