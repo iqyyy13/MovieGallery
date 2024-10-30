@@ -30,6 +30,7 @@ const apiCall = async (endpoint, params) => {
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${accessToken}`
+      //Authorization: `Bearer ${apiKey}`
     }
   }
 
@@ -92,4 +93,8 @@ export const fetchMoreUpcomingMovies = params => {
 
 export const fetchReviewMovies = id => {
   return apiCall(reviewMoviesEndpoint(id))
+}
+
+export const fetchMoreReviewMovies = (id, params) => {
+  return apiCall(reviewMoviesEndpoint(id), params)
 }

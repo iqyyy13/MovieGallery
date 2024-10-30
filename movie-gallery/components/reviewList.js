@@ -13,13 +13,14 @@ import { useNavigation } from '@react-navigation/native'
 
 const defaultProfilePhoto = require('../assets/default_profile.jpg')
 
-const ReviewList = ({ data, title }) => {
+const ReviewList = ({ data, title, id }) => {
   const navigation = useNavigation()
   const handlePress = (item) => {
     console.log('pressed', item)
     navigation.push('Review', { item, title })
   }
   console.log('data is :', data)
+  // console.log("movie title :", title)
   return (
     <View>
       <View
@@ -32,7 +33,7 @@ const ReviewList = ({ data, title }) => {
         <Text style={{ marginLeft: 20, fontSize: 20, color: 'white' }}>
           Reviews
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('SeeAllReviews', {id, title})}>
           <Text style={{ marginRight: 20, fontSize: 20, color: 'orange' }}>
             See All
           </Text>

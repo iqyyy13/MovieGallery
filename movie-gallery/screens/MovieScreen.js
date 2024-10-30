@@ -270,6 +270,7 @@ const MovieScreen = () => {
       <ReviewList 
         data={reviews}
         title= {movie?.title}
+        id = {item.id}
       />
     </ScrollView>
   )
