@@ -31,7 +31,6 @@ const ReviewScreen = () => {
   const hasHalfStar = normalizedRating % 1 !== 0
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0)
 
-  console.log('stars:', fullStars)
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -88,7 +87,10 @@ const ReviewScreen = () => {
                   color="gold"
                 />
               ))}
-              <Text style={{color:'white', fontSize: 20, marginLeft: 5}}> {item.author_details.rating} </Text>
+            <Text style={{ color: 'white', fontSize: 20, marginLeft: 5 }}>
+              {' '}
+              {item.author_details.rating}{' '}
+            </Text>
           </View>
         </View>
         <View style={{ marginLeft: 20, marginTop: 20, marginRight: 20 }}>
@@ -122,8 +124,9 @@ const styles = StyleSheet.create({
   starContainer: {
     marginLeft: 20,
     marginTop: 20,
-    borderWidth: 1,
-    borderColor: 'red',
+    borderWidth: 2,
+    borderColor: 'rgb(161 161 170)',
+    borderRadius: 9999,
     padding: 5,
     marginRight: 20,
     flexDirection: 'row',

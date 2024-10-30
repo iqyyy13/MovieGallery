@@ -19,6 +19,7 @@ const ReviewList = ({ data, title }) => {
     console.log('pressed', item)
     navigation.push('Review', { item, title })
   }
+  console.log('data is :', data)
   return (
     <View>
       <View
@@ -37,82 +38,94 @@ const ReviewList = ({ data, title }) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}
-      >
-        {data.map((item, index) => {
-          {/* console.log('rating: ', item.author_details.rating) */}
-          const avatarUri = item.author_details.avatar_path
-            ? {
-                uri: `https://image.tmdb.org/t/p/w150_and_h150_face/${item.author_details.avatar_path}`,
-              }
-            : defaultProfilePhoto
+      {data && data.length === 0 ? (
+        <Text style={{ margin: 20, color: 'white', textAlign:'center', fontSize: 18 }}>
+          No reviews for this movie currently
+        </Text>
+      ) : (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={{ marginTop: 20, marginLeft: 20, marginRight: 20 }}
+        >
+          {data.map((item, index) => {
+            {
+              /* console.log('rating: ', item.author_details.rating) */
+            }
+            const avatarUri = item.author_details.avatar_path
+              ? {
+                  uri: `https://image.tmdb.org/t/p/w150_and_h150_face/${item.author_details.avatar_path}`,
+                }
+              : defaultProfilePhoto
 
-          return (
-            <Card
-              key={index}
-              onPress={() => handlePress(item)}
-              style={{
-                width: 300,
-                marginRight: 20,
-                backgroundColor: 'rgb(38 38 38)',
-                overflow: 'hidden',
-                borderWidth: 1,
-                borderColor: 'white',
-              }}
-            >
-              <View
+            return (
+              <Card
+                key={index}
+                onPress={() => handlePress(item)}
                 style={{
-                  justifyContent: 'space-between',
-                  flexDirection: 'row',
-                  marginBottom: 10,
-                  alignItems: 'center',
+                  width: 300,
+                  marginRight: 20,
+                  backgroundColor: 'rgb(38 38 38)',
+                  overflow: 'hidden',
+                  borderWidth: 1,
+                  borderColor: 'white',
                 }}
               >
-                <Image source={avatarUri} style={styles.coverImage} />
-                <Text style={{ fontSize: 18, color: 'white'  }}>
-                  {item.author}
-                </Text>
-                <View style={styles.spacer}></View>
-                {item.author_details.rating !== null ? (
-                  <View style={styles.containerStar}>
-                    <FontAwesome
-                      name="star"
-                      size={20}
-                      color={'rgb(255 234 0)'}
-                      style={{ marginLeft: 5 }}
-                    />
-                    <Text
-                      style={{
-                        color: 'white',
-                        fontSize: 20,
-                        marginLeft: 5,
-                        marginBottom: 3,
-                      }}
-                    >
-                      {item.author_details.rating}
-                    </Text>
-                  </View>
-                ): (
-                  <View style={{width: 150}}></View>
-                )}
-              </View>
-              <Card.Content>
-                <Text
-                  variant="bodyMedium"
-                  numberOfLines={10}
-                  ellipsizeMode="tail"
-                  style={{ fontSize: 15, textAlign: 'justify', color: 'white' }}
+                <View
+                  style={{
+                    justifyContent: 'space-between',
+                    flexDirection: 'row',
+                    marginBottom: 10,
+                    alignItems: 'center',
+                  }}
                 >
-                  {item.content}
-                </Text>
-              </Card.Content>
-            </Card>
-          )
-        })}
-      </ScrollView>
+                  <Image source={avatarUri} style={styles.coverImage} />
+                  <Text style={{ fontSize: 18, color: 'white' }}>
+                    {item.author}
+                  </Text>
+                  <View style={styles.spacer}></View>
+                  {item.author_details.rating !== null ? (
+                    <View style={styles.containerStar}>
+                      <FontAwesome
+                        name="star"
+                        size={20}
+                        color={'rgb(255 234 0)'}
+                        style={{ marginLeft: 5 }}
+                      />
+                      <Text
+                        style={{
+                          color: 'white',
+                          fontSize: 20,
+                          marginLeft: 5,
+                          marginBottom: 3,
+                        }}
+                      >
+                        {item.author_details.rating}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View style={{ width: 150 }}></View>
+                  )}
+                </View>
+                <Card.Content>
+                  <Text
+                    variant="bodyMedium"
+                    numberOfLines={10}
+                    ellipsizeMode="tail"
+                    style={{
+                      fontSize: 15,
+                      textAlign: 'justify',
+                      color: 'white',
+                    }}
+                  >
+                    {item.content}
+                  </Text>
+                </Card.Content>
+              </Card>
+            )
+          })}
+        </ScrollView>
+      )}
     </View>
   )
 }
@@ -137,8 +150,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   spacer: {
-    width:50,
-  }
+    width: 50,
+  },
 })
 
 export default ReviewList
