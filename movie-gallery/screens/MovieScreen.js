@@ -18,10 +18,11 @@ import {
   fetchMovieCredits,
   fetchSimilarMovies,
   fetchMovieTrailer,
-  fetchReviewMovies
+  fetchReviewMovies,
 } from '../api/moviedb'
 import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import MovieList from '../components/movieList'
 import ReviewList from '../components/reviewList'
@@ -47,6 +48,7 @@ const MovieScreen = () => {
 
   const handleFavourite = () => {
     toggleFavourite(!favourite)
+    addFavoriteMovie(item.id)
   }
 
   useEffect(() => {
@@ -89,9 +91,44 @@ const MovieScreen = () => {
 
   const getReviews = async (id) => {
     const data = await fetchReviewMovies(id)
-    console.log("reviews:", data.results)
+    // console.log("reviews:", data.results)
     if (data && data.results) setReviews(data.results)
     setLoading(false)
+  }
+
+  const storeFavoriteMovies = async (id) => {
+    try {
+      const jsonValue = JSON.stringify(id)
+      await AsyncStorage.setItem('@favorite_movies', jsonValue)
+      console.log('STORED')
+    } catch (e) {
+      console.error('Failed to save movies:', e)
+    }
+  }
+
+  const getFavoriteMovies = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@favorite_movies')
+      return jsonValue != null ? JSON.parse(jsonValue) : []
+    } catch (e) {
+      console.error('Failed to load movies:', e)
+    }
+  }
+
+  const addFavoriteMovie = async (id) => {
+    const currentFavorites = await getFavoriteMovies()
+    // currentFavorites = currentFavorites.flat(Infinity)
+
+    console.log('id is : ', id)
+
+    if (currentFavorites.length === 0) {
+      await storeFavoriteMovies([id])
+    } else if (!currentFavorites.includes(id)) {
+      currentFavorites.push(id)
+      await storeFavoriteMovies(currentFavorites)
+    } else {
+      console.log('Movie already in favorites')
+    }
   }
 
   useEffect(() => {
@@ -267,11 +304,7 @@ const MovieScreen = () => {
         data={similarMovies}
         hideSeeAll={true}
       />
-      <ReviewList 
-        data={reviews}
-        title= {movie?.title}
-        id = {item.id}
-      />
+      <ReviewList data={reviews} title={movie?.title} id={item.id} />
     </ScrollView>
   )
 }

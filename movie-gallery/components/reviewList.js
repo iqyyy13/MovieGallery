@@ -19,8 +19,7 @@ const ReviewList = ({ data, title, id }) => {
     console.log('pressed', item)
     navigation.push('Review', { item, title })
   }
-  console.log('data is :', data)
-  // console.log("movie title :", title)
+
   return (
     <View>
       <View
