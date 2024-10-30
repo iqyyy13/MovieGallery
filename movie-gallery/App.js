@@ -9,6 +9,8 @@ import FavouritesScreen from './screens/FavouritesScreen'
 import VideoScreen from './screens/VideoScreen'
 import SearchScreen from './screens/SearchScreen'
 import SeeAllScreen from './screens/SeeAllScreen'
+import ReviewScreen from './screens/ReviewScreen'
+
 const Stack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
 
@@ -20,7 +22,8 @@ const HomeStack = () => {
         <Stack.Screen name="Person" component={PersonScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>
         <Stack.Screen name="Video" component={VideoScreen} options={{headerShown: false, gestureEnabled: false, orientation:'landscape'}}/> 
         <Stack.Screen name="Search" component={SearchScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/> 
-        <Stack.Screen name="SeeAll" component={SeeAllScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>             
+        <Stack.Screen name="SeeAll" component={SeeAllScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>  
+        <Stack.Screen name="Review" component={ReviewScreen} options={{headerShown: false, gestureEnabled: false, orientation:'portrait'}}/>                        
     </Stack.Navigator>
   )
 }

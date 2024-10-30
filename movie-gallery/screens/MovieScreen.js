@@ -18,6 +18,7 @@ import {
   fetchMovieCredits,
   fetchSimilarMovies,
   fetchMovieTrailer,
+  fetchReviewMovies
 } from '../api/moviedb'
 import Loading from '../components/loading'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -37,6 +38,7 @@ const MovieScreen = () => {
   const [similarMovies, setSimilarMovies] = useState([])
   const [cast, setCast] = useState([])
   const [trailer, setTrailer] = useState([])
+  const [reviews, setReviews] = useState([])
   const [officialTrailerKey, setOfficialTrailerKey] = useState(null)
 
   const handlePress = () => {
@@ -54,6 +56,7 @@ const MovieScreen = () => {
     getMovieCredits(item.id)
     getSimilarMovies(item.id)
     getMovieTrailer(item.id)
+    getReviews(item.id)
   }, [item])
 
   const getMovieDetails = async (id) => {
@@ -81,6 +84,13 @@ const MovieScreen = () => {
     const data = await fetchMovieTrailer(id)
     // console.log('got movie trailer: ', data)
     if (data && data.results) setTrailer(data.results)
+    setLoading(false)
+  }
+
+  const getReviews = async (id) => {
+    const data = await fetchReviewMovies(id)
+    console.log("reviews:", data.results)
+    if (data && data.results) setReviews(data.results)
     setLoading(false)
   }
 
@@ -257,7 +267,10 @@ const MovieScreen = () => {
         data={similarMovies}
         hideSeeAll={true}
       />
-      <ReviewList/>
+      <ReviewList 
+        data={reviews}
+        title= {movie?.title}
+      />
     </ScrollView>
   )
 }

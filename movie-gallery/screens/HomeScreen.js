@@ -79,7 +79,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: '#383838'}}>
         <StatusBar style="light" />
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
@@ -118,12 +118,14 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#383838',
+    backgroundColor: '#202020',
   },
   header: {
     marginTop: 20,
+    marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: '#383838',
   },
 })
 

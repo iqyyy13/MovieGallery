@@ -73,20 +73,20 @@ const SeeAllScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.goBack()}
+        >
+          <Entypo name="chevron-left" size={30} color={'white'} />
+        </TouchableOpacity>
+        <Text style={{ color: 'white', fontSize: 30 }}> {title} </Text>
+        <View style={styles.rightSpacer} />
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
+        contentContainerStyle={{ paddingHorizontal: 15, backgroundColor: '#202020' }}
       >
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.goBack()}
-          >
-            <Entypo name="chevron-left" size={30} color={'white'} />
-          </TouchableOpacity>
-          <Text style={{ color: 'white', fontSize: 30 }}> {title} </Text>
-          <View style={styles.rightSpacer} />
-        </View>
         {loading ? (
           <Loading />
         ) : (
@@ -177,8 +177,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#383838',
   },
   header: {
-    flex: 1,
     marginTop: 20,
+    marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

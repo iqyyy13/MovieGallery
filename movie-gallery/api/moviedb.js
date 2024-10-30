@@ -11,6 +11,7 @@ const searchMoviesEndpoint = `${apiBaseUrl}/search/movie`
 const movieDetailsEndpoint = id => `${apiBaseUrl}/movie/${id}`
 const movieCreditsEndpoint = id => `${apiBaseUrl}/movie/${id}/credits`
 const similarMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/similar`
+const reviewMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/reviews`
 
 const personDetailsEndpoint = id => `${apiBaseUrl}/person/${id}`
 const personMoviesEndpoint = id => `${apiBaseUrl}/person/${id}/movie_credits`
@@ -87,4 +88,8 @@ export const fetchMoreTopRatedMovies = params => {
 
 export const fetchMoreUpcomingMovies = params => {
   return apiCall(upcomingMoviesEndpoint, params)
+}
+
+export const fetchReviewMovies = id => {
+  return apiCall(reviewMoviesEndpoint(id))
 }

@@ -190,8 +190,9 @@ const PersonScreen = () => {
                 color: 'rgb(115,115,115)',
                 marginLeft: 20,
                 marginTop: 8,
-                marginRight: 10,
+                marginRight: 15,
                 letterSpacing: 1,
+                textAlign: 'justify'
               }}
             >
               {person?.biography}

@@ -86,6 +86,7 @@ const SearchScreen = () => {
           borderWidth: 2,
           borderRadius: 9999,
           borderColor: 'lightgray',
+          marginBottom: 10
         }}
       >
         <TextInput
@@ -111,7 +112,7 @@ const SearchScreen = () => {
         <>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 15 }}
+            contentContainerStyle={{ paddingHorizontal: 15, backgroundColor: '#202020' }}
           >
             <Text
               style={{
