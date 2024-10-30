@@ -18,7 +18,7 @@ Movie Gallery is a fully functional mobile application built using React Native.
 
 ## Installation
 
-To run the Movie Gallery app and access movie data, you will need to generate your own API key or access token from The Movie Database (TMDB). For detailed instructions on how to do this, please refer to the [API Key Generation Guide]
+To run the Movie Gallery app and access movie data, you will need to generate your own API key or access token from The Movie Database (TMDB). For detailed instructions on how to do this, please refer to the [API Key Generation Guide](movie-gallery/api/README.md)
 
 ### Follow these steps to install and run the app:
 
