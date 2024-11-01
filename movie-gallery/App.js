@@ -42,7 +42,7 @@ const App = () => {
         drawerInactiveTintColor: 'white'
       }}>
         <Drawer.Screen name="Home" component={HomeStack} options={{headerShown: false, drawerType: 'front', swipeEnabled: false}}/>
-        <Drawer.Screen name="Favourites" component={FavouritesScreen} options={{headerShown: false}} />
+        <Drawer.Screen name="Lists" component={FavouritesScreen} options={{headerShown: false, orientation:'portrait'}} />
       </Drawer.Navigator>
     </NavigationContainer>
   )
