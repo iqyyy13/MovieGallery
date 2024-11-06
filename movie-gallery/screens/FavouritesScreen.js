@@ -139,6 +139,18 @@ const FavouritesScreen = ({ navigation }) => {
                 <View style={{marginTop: 10}}>
                   <Text style={{lineHeight: 20}}>Are you sure you want to delete {selectedMovie} from your list? </Text>
                 </View>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <TouchableOpacity style={{width: '25%', padding: 5, borderWidth: 2}}>
+                    <Text style={{textAlign: 'center'}}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{width: '25%', padding: 5, backgroundColor: 'red', borderRadius: 10}}>
+                    <Text style={{textAlign: 'center'}}>
+                      Delete
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

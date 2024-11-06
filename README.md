@@ -31,3 +31,5 @@ To run the Movie Gallery app and access movie data, you will need to generate yo
    ```bash
    npm install
    npm start
+
+### Node V18.18.0 was used on this project
